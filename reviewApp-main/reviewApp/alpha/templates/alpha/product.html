@@ -1,0 +1,81 @@
+{% extends 'alpha/base.html' %}
+{% block content %}
+  <div class="container-content">
+    <div class="row justify-content-center">             
+      <div class="col-md-10">      
+        <section style="color: #000; background-color: #f3f2f2;">
+          <div class="container py-5">
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-10 col-xl-8 text-center">
+                <h3 class="fw-bold mb-4">PRODUCT ITEM</h3>
+                <p class="mb-4 pb-2 mb-md-5 pb-md-0">
+                  Our product says it ALL
+                  <p class="mb-4 pb-2 mb-md-5 pb-md-0">
+                    Buy ANY items at minimum cost of £500 and get 20% discount at next purchase.
+                    <p class="mb-4 pb-2 mb-md-5 pb-md-0">
+                      Terms and condition appy   
+                       
+                    </p>
+                  </p>
+                </p>
+              </div>
+            </div> 
+                
+            <div class="row text-center">
+              {% if prod == 0 %}
+                <div>
+                    Record not Found...
+                </div>
+              {% else %}
+                {% for p in prod %}
+                  <div class="col-md-3 mb-4 mb-md-0">
+                    <div class="card">
+                      <div class="card-body py-4 mt-2">
+                        <div class="d-flex justify-content-center mb-4">
+                          <img src="{{ p.image.url }}"
+                            class="rounded shadow-1-strong" width="200" height="200" />
+                        </div>
+                        <h5 class="font-weight-bold">{{ p.name }}</h5>
+                        <h5 class="font-weight-bold my-3">$ {{ p.average_cost }}</h5>
+                        <h6 class="font-weight-bold my-3">{{ p.date_released }}</h6>          
+                        <a href="{% url 'review' p.name %}" class="btn btn-outline-primary">View Review</a>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}  
+              {% endif %}  
+            </div> 
+        <div class="row justify-content-center mt-2">       
+        <hr><br/> 
+        {% if prod2 == 0 %} 
+        {% else %} 
+        <nav aria-label="...">
+            <ul class="pagination ">
+                {% if prod.has_previous %}
+                    <li class="page-item">
+                        <a href="?page=1" class="page-link">First</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ prod.previous_page_number }}" class="page-link">Previous</a>
+                    </li>
+                {% endif %}              
+              <li class="page-item active" aria-current="page">
+                <a class="page-link">{{ prod.number }} of {{ prod.paginator.num_pages }}</a>
+              </li>
+              {% if prod.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ prod.next_page_number }}">Next</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ prod.paginator.num_pages }}">Last</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>           
+          </div>
+          
+        </section>               
+      </div>
+    </div>         
+  </div>             
+{% endblock %}
